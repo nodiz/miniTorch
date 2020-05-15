@@ -1,5 +1,4 @@
 import torch
-import math
 from prototype.Module import Module
 
 
