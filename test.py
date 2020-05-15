@@ -1,5 +1,5 @@
 import torch
-from utils.utils import demoDataset, train, validate
+from utils.utils import demoDataset, train, validate, demoPlot
 from functional.ReLu import ReLu, LeakyReLu
 from functional.Tanh import Tanh
 from layer.Linear import Linear
@@ -10,15 +10,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 if __name__ == "__main__":
-    model = Sequential( ('fc1', Linear(2, 25, use_bias=False)), ('relu1', ReLu()),
-                       # ('fc2', Linear(25, 25, use_bias=False)), ('relu2', ReLu()),
-                       # ('fc3', Linear(25, 25, use_bias=False)), ('relu3', ReLu()),
-                        ('fc4', Linear(25, 2, use_bias=False)), ('tanh1', Tanh()))
+    model = Sequential( ('fc1', Linear(2, 25, use_bias=True)), ('relu1', ReLu()),
+                        ('fc2', Linear(25, 25, use_bias=True)), ('relu2', ReLu()),
+                        ('fc3', Linear(25, 25, use_bias=True)), ('relu3', ReLu()),
+                        ('fc4', Linear(25, 2, use_bias=True, activ='tanh')), ('tanh1', Tanh()))
 
     criterion = LossMse()
 
-    n_epochs = 100
-    lr = 0.00001
+    n_epochs = 500
+    lr = 0.001
 
     batch_size = 50
     trainX, _, trainY = demoDataset(1000, batch_size)
@@ -49,6 +49,9 @@ if __name__ == "__main__":
           f"Loss history {losses}")
 
     sns.set()
-    plt.plot(losses[::100])
+    plt.figure(0)
+    plt.plot(losses)
+    plt.title("Loss over epochs")
     plt.show()
 
+    demoPlot(model, data=valX)

@@ -1,28 +1,32 @@
 import torch
 from prototype.Module import Module
+from utils.utils import xavier_init
+from utils.utils import kaiming_init
 
 
 class Linear(Module):
-    def __init__(self, size_input, size_output, use_bias=True):
+    def __init__(self, size_input, size_output, use_bias=True, activ='ReLu'):
         super().__init__()
 
         self.size_input = size_input
         self.size_output = size_output
         self.batch_size = 0
 
-        self.weights = torch.empty(self.size_input, self.size_output)\
-            .normal_(mean=0, std=1)
+        if activ.lower() == 'relu':
+            self.weights = kaiming_init(size_input, size_output)
+        elif activ.lower() == 'tanh':
+            self.weights = xavier_init(size_input, size_output)
+        else:
+            raise NotImplementedError
+
         self.grad_weights = torch.zeros_like(self.weights)
 
         if use_bias:
-            self.bias = torch.empty(1, self.size_output)\
+            self.bias = torch.zeros(1, self.size_output) \
                 .normal_(mean=0, std=1)
             self.grad_bias = torch.zeros_like(self.bias)
         else:
             self.bias, self.grad_bias = None, None
-
-        self.cache = None
-        self.previous_len = 1
 
     def __repr__(self):
         return f"<Linear ({self.size_input}, {self.size_output})>"

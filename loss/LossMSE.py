@@ -12,7 +12,7 @@ class LossMse(Module):
         return loss, dloss
 
     def forward(self, inputs: torch.Tensor, targets: torch.Tensor):
-        return ((inputs - targets).pow(2).sum(1)).mean().item()
+        return ((inputs - targets).pow(2).sum(1)).sum().item()
 
     def backward(self, inputs: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
         return 2 * (inputs - targets)

@@ -3,20 +3,17 @@ import math
 from prototype.Module import Module
 
 
-def tanh(inputs):
-    #return (math.exp(inputs) - math.exp(-inputs)) / (math.exp(inputs) + math.exp(-inputs))
-    return inputs.tanh()
-
-
-def dtanh(inputs):
-    return
-
-
 class Tanh(Module):
     """Tanh activation layer"""
+    def __init__(self):
+        super().__init__()
 
     def forward(self, inputs: torch.Tensor) -> torch.Tensor:
+        if self.requires_grad:
+            self.cache = inputs
+
         return inputs.tanh()
 
     def backward(self, inputs: torch.Tensor) -> torch.Tensor:
-        return - inputs.tanh().pow(2) + 1
+        dtanh = - self.cache.tanh().pow(2) + 1
+        return dtanh * inputs
