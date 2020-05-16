@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import seaborn as sns
 from torch import FloatTensor
 from functional.ReLu import ReLu
 from functional.Tanh import Tanh
@@ -21,7 +20,6 @@ def mainCrossVal(model):
         crossVal.append(Result(acc_train, acc_val, losses, lr))
 
     lrs = [result.lr for result in crossVal]
-    sns.set()
     plt.figure(0)
     for result in crossVal:
         plt.plot(result.losses)
@@ -42,12 +40,12 @@ def mainStdAcc(model, lr):
         acc_train, acc_val, losses = trainAndVal(model, optim, criterion, n_epochs, requires_plot=False)
         crossVal.append(Result(acc_train, acc_val, losses, lr))
 
-    ts = [result.acc_val for result in crossVal]
+    ts = [result.acc_train for result in crossVal]
     vs = [result.acc_val for result in crossVal]
     train_accs = FloatTensor(ts)
     val_accs = FloatTensor(vs)
 
-    print(f"Type\tMean\tAcc\n"
+    print(f"Type\tAccuracy\tstd\n"
           f"Train\t{train_accs.mean()}\t{train_accs.std()}\n"
           f"Val\t{val_accs.mean()}\t{val_accs.std()}\n")
 

@@ -1,7 +1,6 @@
 from datetime import timedelta
 from math import sqrt, pi
 from time import time
-import seaborn as sns
 import matplotlib
 import matplotlib.pyplot as plt
 import torch
@@ -113,7 +112,6 @@ def trainAndVal(model, optim, criterion, n_epochs, requires_plot=False, verbose=
               f"Validation accuracy: {acc_val}\n")
 
     if requires_plot:
-        sns.set()
         lossPlot(losses)
         demoPlot(model, data=valX)
 

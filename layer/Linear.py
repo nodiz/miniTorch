@@ -70,13 +70,6 @@ class Linear(Module):
         if self.bias is not None:
             self.bias.zero_grad()
 
-    def optim_sgd_step(self, eta):
-        """update weights and biases"""
-        self.weights.update_data(- eta * self.weights.grad)
-
-        if self.bias is not None:
-            self.bias.update_data(- eta * self.bias.grad)
-
     def init(self):
         """Reinitialise parameters --> need to reinit the optim also"""
         self.__init__(
