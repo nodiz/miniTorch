@@ -18,6 +18,13 @@ class Sequential(Module):
             str += f"{i}: ({name})"
         return str
 
+    def param(self):
+        for module in self.children():
+            yield from module.param()
+
+    def parameters(self):
+        return [p for p in self.param()]
+
     def appendModule(self, name, module):
         self._modules[name] = module
 
@@ -26,7 +33,7 @@ class Sequential(Module):
             if module is not None:
                 yield module
 
-    def inverse_children(self):
+    def reverse_children(self):
         for module in [module for module in self.children()][::-1]:
             if module is not None:
                 yield module
@@ -37,7 +44,7 @@ class Sequential(Module):
         return inputs
 
     def backward(self, inputs: torch.Tensor):
-        for module in self.inverse_children():
+        for module in self.reverse_children():
             inputs = module.backward(inputs.type(torch.float))
         return inputs
 
@@ -56,3 +63,8 @@ class Sequential(Module):
     def zero_grad(self):
         for module in self.children():
             module.zero_grad()
+
+    def init(self):
+        for module in self.children():
+            module.init()
+

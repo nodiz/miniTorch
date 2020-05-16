@@ -1,4 +1,5 @@
 import torch
+from parameters.Parameters import Parameters
 
 
 class Module:
@@ -21,14 +22,13 @@ class Module:
 
     def zero_grad(self):
         self.cache = None
+        for param in self.param():
+            param.zero_grad()
 
     def param(self):
         """param should  return  a  list  of  pairs,  each  composed  of  a  parameter  tensor,  and  a  gradient
         tensor of same size.  This list should be empty for parameter less modules (e.g.  ReLU)"""
-        return [var for var in vars(self).keys()]
-
-    def optim_sgd_step(self, eta):
-        return
+        return [var for var in vars(self).values() if isinstance(var, Parameters)]
 
     def train(self):
         self.requires_grad = True
@@ -40,3 +40,5 @@ class Module:
     def eval_mode(self):
         return not self.requires_grad
 
+    def init(self):
+        return
