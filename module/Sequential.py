@@ -48,10 +48,6 @@ class Sequential(Module):
             inputs = module.backward(inputs.type(torch.float))
         return inputs
 
-    def optim_sgd_step(self, eta):
-        for module in self.children():
-            module.optim_sgd_step(eta)
-
     def train(self):
         for module in self.children():
             module.requires_grad = True
