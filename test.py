@@ -18,7 +18,7 @@ def mainCrossVal(model):
         optim = BengioSGD(model.parameters(), lr=lr, momentum=0.9)
         acc_train, acc_val, losses = trainAndVal(model, optim, criterion, n_epochs, requires_plot=False)
         crossVal.append(Result(acc_train, acc_val, losses, lr))
-
+    
     lrs = [result.lr for result in crossVal]
     plt.figure(0)
     for result in crossVal:
@@ -33,18 +33,18 @@ def mainStdAcc(model, lr):
     criterion = LossMse()
     n_epochs = 100
     crossVal = list()
-
+    
     for trials in range(10):
         model.init()
         optim = BengioSGD(model.parameters(), lr=lr, momentum=0.9)
         acc_train, acc_val, losses = trainAndVal(model, optim, criterion, n_epochs, requires_plot=False)
         crossVal.append(Result(acc_train, acc_val, losses, lr))
-
+    
     ts = [result.acc_train for result in crossVal]
     vs = [result.acc_val for result in crossVal]
     train_accs = FloatTensor(ts)
     val_accs = FloatTensor(vs)
-
+    
     print(f"Type\tAccuracy\tstd\n"
           f"Train\t{train_accs.mean()}\t{train_accs.std()}\n"
           f"Val\t{val_accs.mean()}\t{val_accs.std()}\n")
@@ -62,7 +62,7 @@ if __name__ == "__main__":
                        ('fc2', Linear(25, 25, use_bias=True)), ('relu2', ReLu()),
                        ('fc3', Linear(25, 25, use_bias=True)), ('relu3', ReLu()),
                        ('fc4', Linear(25, 2, use_bias=True, activ='tanh')), ('tanh1', Tanh()))
-
+    
     print("Running lr crossvalidation")
     mainCrossVal(model)
     print("Calculating std for the best lr")
