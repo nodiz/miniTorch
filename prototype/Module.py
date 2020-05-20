@@ -3,6 +3,8 @@ from parameters.Parameters import Parameters
 
 
 class Module:
+    """Module prototype"""
+    
     def __init__(self, *args):
         self.requires_grad = True
         self.cache = None

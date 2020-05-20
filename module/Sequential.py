@@ -4,6 +4,8 @@ from collections import OrderedDict
 
 
 class Sequential(Module):
+    """Stack of modules"""
+    
     def __init__(self, *layers):
         super(Sequential, self).__init__()
         self._modules = OrderedDict()

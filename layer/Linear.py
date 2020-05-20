@@ -7,6 +7,8 @@ from utils.utils import xavier_init
 
 
 class Linear(Module):
+    """Fully connected layer"""
+    
     def __init__(self, size_input, size_output, use_bias=True, activ='ReLu'):
         super().__init__()
 

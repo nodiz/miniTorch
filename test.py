@@ -10,6 +10,7 @@ from utils.utils import trainAndVal, Result
 
 
 def mainCrossVal(model):
+    """perform crossval on multiple LRs"""
     criterion = LossMse()
     n_epochs = 100
     crossVal = list()
@@ -29,6 +30,7 @@ def mainCrossVal(model):
 
 
 def mainStdAcc(model, lr):
+    """calcule accuracy and std out of multiple detections"""
     optim = BengioSGD(model.parameters(), lr=lr, momentum=0.9)
     criterion = LossMse()
     n_epochs = 100
@@ -51,6 +53,7 @@ def mainStdAcc(model, lr):
 
 
 def mainDemo(model, lr):
+    """demo one detection, with plots and losses"""
     optim = BengioSGD(model.parameters(), lr=lr, momentum=0.9)
     criterion = LossMse()
     n_epochs = 100

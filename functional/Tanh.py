@@ -4,6 +4,7 @@ from prototype.Module import Module
 
 class Tanh(Module):
     """Tanh activation layer"""
+    
     def __init__(self):
         super().__init__()
 

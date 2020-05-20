@@ -2,8 +2,9 @@ import torch
 
 
 class Parameters:
+    """parameters definition, data and grad couple"""
+    
     def __init__(self, *args, **kwargs):
-        """parameters definition, data and grad couple"""
         self.data = torch.empty(args)
         self.grad = torch.zeros_like(self.data)
         self._cache = {}
